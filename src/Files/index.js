@@ -49,22 +49,22 @@ export default function Files() {
     }
   }
   const [asc, setAsc] = useState(true);
-  const setFile = useState([]);
   const toggleSort = () => {
     if (files && files.length > 0) {
       setAsc(!asc);
-      const sortedFile = files.sort((a, b) => {
-        const versionIndex = files.length - 1;
-        console.log(a.versions[versionIndex]);
-        if (a.versions[versionIndex].name < b.versions[versionIndex].name) {
+      files.sort((a, b) => {
+        const latestVersion = 0;
+        const firstValue = a.versions[latestVersion].name.toLowerCase();
+        const secondValue = b.versions[latestVersion].name.toLowerCase();
+        if (firstValue < secondValue) {
           return asc ? -1 : 1;
         }
-        if (a.versions[versionIndex].name > b.versions[versionIndex].name) {
+        if (firstValue > secondValue) {
           return asc ? 1 : -1
         }
         return 0;
       });
-      setFile(sortedFile);
+      forceUpdate();
     }
   };
   return (
@@ -76,7 +76,6 @@ export default function Files() {
       {
         files.map(file => <File file={file} key={file.id} onChange={() => forceUpdate()} />)
       }
-      console.log(file);
       {/* TODO: Add a button to add a new file according to task (5) */}
       <button style={{ marginLeft: '10px'}} onClick={onAddFile}>Add New File</button>
     </>
